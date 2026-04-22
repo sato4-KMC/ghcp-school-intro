@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>まるごと学校 | 自然と学びがつながる学校</title>
+  <style>
+    /* ===== Reset & Base ===== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --color-bg: #fafaf8;
+      --color-white: #ffffff;
+      --color-text: #1a1a1a;
+      --color-text-mid: #4a4a4a;
+      --color-text-light: #888888;
+      --color-accent: #7a9eb5;
+      --color-accent-light: #dbe8f0;
+      --color-accent-soft: #e8f0f5;
+      --color-border: #e0e0da;
+      --color-note-tag: #b5cdd9;
+      --font-main: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', 'Noto Sans JP', 'Yu Gothic', 'Meiryo', sans-serif;
+      --font-serif: 'Hiragino Mincho ProN', 'Yu Mincho', 'Georgia', serif;
+      --transition: 0.3s ease;
+      --shadow-soft: 0 2px 20px rgba(0,0,0,0.06);
+      --shadow-card: 0 4px 24px rgba(0,0,0,0.08);
+      --radius: 12px;
+      --radius-sm: 6px;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+
+    body {
+      font-family: var(--font-main);
+      background-color: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.8;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* ===== Utility ===== */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section-label {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-accent);
+      font-weight: 600;
+      margin-bottom: 12px;
+      position: relative;
+      padding-left: 18px;
+    }
+
+    .section-label::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 10px;
+      height: 1.5px;
+      background: var(--color-accent);
+    }
+
+    .section-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 3vw, 2.4rem);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      line-height: 1.4;
+      color: var(--color-text);
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ===== Header ===== */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(250, 250, 248, 0.92);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--color-border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 64px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .site-logo {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      letter-spacing: 0.08em;
+      font-weight: 500;
+      color: var(--color-text);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .logo-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--color-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .logo-mark svg {
+      width: 18px;
+      height: 18px;
+      fill: white;
+    }
+
+    .site-nav {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+    }
+
+    .site-nav a {
+      font-size: 0.82rem;
+      letter-spacing: 0.06em;
+      color: var(--color-text-mid);
+      position: relative;
+      padding-bottom: 2px;
+      transition: color var(--transition);
+    }
+
+    .site-nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 1px;
+      background: var(--color-accent);
+      transition: width var(--transition);
+    }
+
+    .site-nav a:hover {
+      color: var(--color-accent);
+    }
+
+    .site-nav a:hover::after {
+      width: 100%;
+    }
+
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--color-text);
+      transition: var(--transition);
+    }
+
+    .mobile-nav {
+      display: none;
+      flex-direction: column;
+      background: var(--color-white);
+      border-top: 1px solid var(--color-border);
+      padding: 16px 24px 20px;
+      gap: 4px;
+    }
+
+    .mobile-nav.open {
+      display: flex;
+    }
+
+    .mobile-nav a {
+      font-size: 0.9rem;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--color-border);
+      color: var(--color-text-mid);
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== Hero ===== */
+    .hero {
+      position: relative;
+      height: 90vh;
+      min-height: 520px;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1504711434969-e33886168f5c?w=1600&auto=format&fit=crop&q=80');
+      background-size: cover;
+      background-position: center;
+      transform: scale(1.04);
+      transition: transform 8s ease;
+    }
+
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(
+        to bottom,
+        rgba(15,25,40,0.18) 0%,
+        rgba(15,25,40,0.45) 60%,
+        rgba(15,25,40,0.62) 100%
+      );
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: #fff;
+      padding: 0 24px;
+    }
+
+    .hero-sub {
+      font-size: 0.78rem;
+      letter-spacing: 0.22em;
+      opacity: 0.8;
+      margin-bottom: 18px;
+      font-weight: 400;
+    }
+
+    .hero-title {
+      font-family: var(--font-serif);
+      font-size: clamp(2.4rem, 6vw, 4.2rem);
+      font-weight: 400;
+      letter-spacing: 0.08em;
+      line-height: 1.3;
+      margin-bottom: 20px;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.22);
+    }
+
+    .hero-phrase {
+      font-size: clamp(0.9rem, 1.8vw, 1.1rem);
+      letter-spacing: 0.12em;
+      opacity: 0.88;
+      margin-bottom: 36px;
+      font-weight: 300;
+    }
+
+    .hero-play {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.82rem;
+      letter-spacing: 0.1em;
+      opacity: 0.82;
+      cursor: pointer;
+      transition: opacity var(--transition);
+    }
+
+    .hero-play:hover {
+      opacity: 1;
+    }
+
+    .play-circle {
+      width: 44px;
+      height: 44px;
+      border: 1.5px solid rgba(255,255,255,0.7);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background var(--transition);
+    }
+
+    .play-circle svg {
+      width: 14px;
+      height: 14px;
+      fill: white;
+      margin-left: 3px;
+    }
+
+    .hero-play:hover .play-circle {
+      background: rgba(255,255,255,0.12);
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.6);
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 36px;
+      background: rgba(255,255,255,0.4);
+      animation: scrollDown 1.8s ease infinite;
+    }
+
+    @keyframes scrollDown {
+      0% { transform: scaleY(0); transform-origin: top; }
+      50% { transform: scaleY(1); transform-origin: top; }
+      51% { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    /* ===== About Section ===== */
+    .about-section {
+      padding: 100px 0;
+    }
+
+    .about-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+
+    .about-text .section-label {
+      margin-bottom: 10px;
+    }
+
+    .about-text .section-title {
+      margin-bottom: 24px;
+    }
+
+    .about-body {
+      color: var(--color-text-mid);
+      font-size: 0.95rem;
+      line-height: 2;
+      margin-bottom: 20px;
+    }
+
+    .about-body + .about-body {
+      margin-top: -8px;
+    }
+
+    .about-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      color: var(--color-accent);
+      border-bottom: 1px solid var(--color-accent-light);
+      padding-bottom: 2px;
+      margin-top: 12px;
+      transition: gap var(--transition), border-color var(--transition);
+    }
+
+    .about-link:hover {
+      gap: 14px;
+      border-color: var(--color-accent);
+    }
+
+    .about-img-wrap {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      box-shadow: var(--shadow-card);
+    }
+
+    /* Notebook decoration */
+    .notebook-deco {
+      position: absolute;
+      top: -18px;
+      right: -18px;
+      width: 80px;
+      height: 80px;
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* ===== Feature Cards ===== */
+    .features-section {
+      padding: 80px 0 100px;
+      background: var(--color-white);
+    }
+
+    .features-header {
+      text-align: center;
+      margin-bottom: 56px;
+    }
+
+    .features-header .section-label {
+      display: block;
+      text-align: center;
+      padding-left: 0;
+      margin-bottom: 10px;
+    }
+
+    .features-header .section-label::before {
+      display: none;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .feature-card {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      background: var(--color-bg);
+      transition: transform var(--transition), box-shadow var(--transition);
+      cursor: pointer;
+    }
+
+    .feature-card:hover {
+      transform: translateY(-6px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .feature-card-img {
+      aspect-ratio: 3/2;
+      overflow: hidden;
+    }
+
+    .feature-card-img img {
+      transition: transform 0.5s ease;
+    }
+
+    .feature-card:hover .feature-card-img img {
+      transform: scale(1.05);
+    }
+
+    .feature-card-body {
+      padding: 24px 24px 28px;
+    }
+
+    .feature-card-tag {
+      display: inline-block;
+      font-size: 0.68rem;
+      letter-spacing: 0.12em;
+      color: var(--color-accent);
+      border: 1px solid var(--color-note-tag);
+      border-radius: 20px;
+      padding: 2px 10px;
+      margin-bottom: 12px;
+    }
+
+    .feature-card-title {
+      font-family: var(--font-serif);
+      font-size: 1.15rem;
+      font-weight: 500;
+      margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+
+    .feature-card-desc {
+      font-size: 0.83rem;
+      color: var(--color-text-mid);
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      letter-spacing: 0.1em;
+      border: 1px solid var(--color-accent);
+      color: var(--color-accent);
+      border-radius: 20px;
+      padding: 6px 18px;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    .btn-outline:hover {
+      background: var(--color-accent);
+      color: white;
+    }
+
+    /* ===== Note Section ===== */
+    .note-section {
+      padding: 96px 0;
+      background: var(--color-bg);
+    }
+
+    .note-header {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      margin-bottom: 48px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .note-header-left .section-label {
+      margin-bottom: 8px;
+    }
+
+    .note-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 400;
+      letter-spacing: 0.06em;
+    }
+
+    .note-sub {
+      font-size: 0.82rem;
+      color: var(--color-text-light);
+      margin-top: 6px;
+    }
+
+    .note-all-link {
+      font-size: 0.8rem;
+      letter-spacing: 0.08em;
+      color: var(--color-accent);
+      border-bottom: 1px solid var(--color-accent-light);
+      padding-bottom: 2px;
+      white-space: nowrap;
+      transition: border-color var(--transition);
+    }
+
+    .note-all-link:hover {
+      border-color: var(--color-accent);
+    }
+
+    .note-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px;
+    }
+
+    .note-card {
+      background: var(--color-white);
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: 1px solid var(--color-border);
+      transition: transform var(--transition), box-shadow var(--transition);
+      cursor: pointer;
+    }
+
+    .note-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-card);
+    }
+
+    .note-card-img {
+      aspect-ratio: 16/9;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .note-card-img img {
+      transition: transform 0.5s ease;
+    }
+
+    .note-card:hover .note-card-img img {
+      transform: scale(1.06);
+    }
+
+    .note-card-cat {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      font-size: 0.65rem;
+      letter-spacing: 0.08em;
+      background: var(--color-accent);
+      color: white;
+      border-radius: 10px;
+      padding: 2px 9px;
+    }
+
+    .note-card-body {
+      padding: 18px 20px 22px;
+    }
+
+    .note-card-date {
+      font-size: 0.72rem;
+      color: var(--color-text-light);
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+
+    .note-card-title {
+      font-size: 0.88rem;
+      font-weight: 500;
+      line-height: 1.65;
+      letter-spacing: 0.02em;
+      color: var(--color-text);
+    }
+
+    /* Notebook rule lines decoration */
+    .note-section::before {
+      content: '';
+      display: block;
+      height: 0;
+    }
+
+    /* ===== Visual Band ===== */
+    .band-section {
+      position: relative;
+      height: 480px;
+      overflow: hidden;
+    }
+
+    .band-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=1600&auto=format&fit=crop&q=80');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .band-bg::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(12, 22, 36, 0.5);
+    }
+
+    .band-content {
+      position: relative;
+      z-index: 2;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      color: white;
+      padding: 0 24px;
+    }
+
+    .band-line {
+      width: 1px;
+      height: 40px;
+      background: rgba(255,255,255,0.4);
+      margin: 0 auto 24px;
+    }
+
+    .band-text {
+      font-family: var(--font-serif);
+      font-size: clamp(1.5rem, 3.5vw, 2.4rem);
+      font-weight: 400;
+      letter-spacing: 0.12em;
+      line-height: 1.7;
+      text-shadow: 0 2px 16px rgba(0,0,0,0.3);
+    }
+
+    .band-sub {
+      margin-top: 18px;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      opacity: 0.72;
+    }
+
+    .band-line-bottom {
+      width: 1px;
+      height: 40px;
+      background: rgba(255,255,255,0.4);
+      margin: 24px auto 0;
+    }
+
+    /* ===== Interview Section ===== */
+    .interview-section {
+      padding: 100px 0;
+      background: var(--color-white);
+    }
+
+    .interview-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 72px;
+      align-items: center;
+    }
+
+    .interview-img-wrap {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 3/4;
+      box-shadow: var(--shadow-card);
+    }
+
+    .interview-quote-mark {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      font-family: Georgia, serif;
+      font-size: 6rem;
+      line-height: 1;
+      color: rgba(255,255,255,0.28);
+      z-index: 2;
+      pointer-events: none;
+      font-style: italic;
+    }
+
+    .interview-text .section-label {
+      margin-bottom: 10px;
+    }
+
+    .interview-title {
+      font-family: var(--font-serif);
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .interview-body {
+      font-size: 0.92rem;
+      color: var(--color-text-mid);
+      line-height: 2.1;
+      margin-bottom: 16px;
+    }
+
+    .interview-name {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 28px;
+      padding-top: 24px;
+      border-top: 1px solid var(--color-border);
+    }
+
+    .interview-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      overflow: hidden;
+      flex-shrink: 0;
+      background: var(--color-accent-light);
+    }
+
+    .interview-name-text {
+      font-size: 0.82rem;
+    }
+
+    .interview-name-main {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      display: block;
+    }
+
+    .interview-name-sub {
+      color: var(--color-text-light);
+      font-size: 0.76rem;
+    }
+
+    /* ===== Access / Footer ===== */
+    .access-section {
+      padding: 96px 0 0;
+      background: var(--color-bg);
+    }
+
+    .access-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+      padding-bottom: 64px;
+    }
+
+    .access-text .section-label {
+      margin-bottom: 10px;
+    }
+
+    .access-title {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+      margin-bottom: 24px;
+    }
+
+    .access-info {
+      font-size: 0.88rem;
+      color: var(--color-text-mid);
+      line-height: 2;
+    }
+
+    .access-info p {
+      margin-bottom: 4px;
+    }
+
+    .access-info strong {
+      color: var(--color-text);
+      font-weight: 600;
+      margin-right: 8px;
+    }
+
+    .access-map {
+      border-radius: var(--radius);
+      overflow: hidden;
+      aspect-ratio: 4/3;
+      background: var(--color-accent-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-accent);
+      font-size: 0.82rem;
+      border: 1px solid var(--color-border);
+      position: relative;
+    }
+
+    /* Simple SVG map placeholder */
+    .map-placeholder {
+      text-align: center;
+    }
+
+    .map-placeholder svg {
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 10px;
+      fill: var(--color-accent);
+      opacity: 0.5;
+    }
+
+    .map-placeholder p {
+      font-size: 0.78rem;
+      color: var(--color-text-light);
+    }
+
+    .sns-row {
+      display: flex;
+      gap: 14px;
+      margin-top: 28px;
+    }
+
+    .sns-icon {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--color-border);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--color-text-mid);
+      transition: border-color var(--transition), color var(--transition), background var(--transition);
+      cursor: pointer;
+    }
+
+    .sns-icon:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    .sns-icon svg {
+      width: 16px;
+      height: 16px;
+      fill: currentColor;
+    }
+
+    .site-footer {
+      border-top: 1px solid var(--color-border);
+      padding: 28px 24px;
+      background: var(--color-white);
+    }
+
+    .footer-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .footer-links {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+    .footer-links a {
+      font-size: 0.76rem;
+      color: var(--color-text-light);
+      letter-spacing: 0.04em;
+      transition: color var(--transition);
+    }
+
+    .footer-links a:hover {
+      color: var(--color-accent);
+    }
+
+    .footer-copy {
+      font-size: 0.72rem;
+      color: var(--color-text-light);
+      letter-spacing: 0.04em;
+    }
+
+    /* ===== Decorative SVG doodles ===== */
+    .deco-circle {
+      position: absolute;
+      border-radius: 50%;
+      border: 1.5px solid var(--color-accent-light);
+      pointer-events: none;
+    }
+
+    .deco-dot-grid {
+      position: absolute;
+      pointer-events: none;
+      opacity: 0.25;
+    }
+
+    /* ===== Responsive ===== */
+    @media (max-width: 900px) {
+      .features-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .note-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .about-inner,
+      .interview-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .about-img-wrap {
+        order: -1;
+      }
+
+      .access-inner {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+    }
+
+    @media (max-width: 680px) {
+      .site-nav {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .features-grid,
+      .note-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        height: 85vh;
+      }
+
+      .band-section {
+        height: 360px;
+      }
+
+      .interview-img-wrap {
+        aspect-ratio: 4/3;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+
+    /* ===== Thin rule dividers ===== */
+    .rule {
+      width: 48px;
+      height: 1px;
+      background: var(--color-border);
+      margin: 24px 0;
+    }
+
+    /* ===== Highlight chip ===== */
+    .chip {
+      display: inline-block;
+      background: var(--color-accent-soft);
+      color: var(--color-accent);
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      border-radius: 20px;
+      padding: 3px 12px;
+      margin-right: 6px;
+      margin-bottom: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="header-inner">
+      <a href="#" class="site-logo">
+        <div class="logo-mark">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        まるごと学校
+      </a>
+      <nav class="site-nav" aria-label="メインナビゲーション">
+        <a href="#about">学校概要</a>
+        <a href="#features">学校生活</a>
+        <a href="#curriculum">カリキュラム</a>
+        <a href="#gallery">ギャラリー</a>
+        <a href="#note">まるごとnote</a>
+        <a href="#access">アクセス</a>
+      </nav>
+      <button class="nav-toggle" aria-label="メニュー" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+    <nav class="mobile-nav" id="mobileNav" aria-label="モバイルナビゲーション">
+      <a href="#about" onclick="toggleMenu()">学校概要</a>
+      <a href="#features" onclick="toggleMenu()">学校生活</a>
+      <a href="#curriculum" onclick="toggleMenu()">カリキュラム</a>
+      <a href="#gallery" onclick="toggleMenu()">ギャラリー</a>
+      <a href="#note" onclick="toggleMenu()">まるごとnote</a>
+      <a href="#access" onclick="toggleMenu()">アクセス</a>
+    </nav>
+  </header>
+
+  <main id="main-content">
+
+  <!-- ===== HERO ===== -->
+  <section class="hero" aria-label="ヒーローセクション">
+    <div class="hero-bg" id="heroBg"></div>
+    <div class="hero-content">
+      <p class="hero-sub">MARUGOTO SCHOOL — SINCE 2018</p>
+      <h1 class="hero-title">まるごと学校</h1>
+      <p class="hero-phrase">自然と学びがつながる学校</p>
+      <div class="hero-play" role="button" tabindex="0" aria-label="学校紹介動画を見る">
+        <div class="play-circle">
+          <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <span>学校紹介を見る</span>
+      </div>
+    </div>
+    <div class="hero-scroll" aria-hidden="true">
+      <span>SCROLL</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- ===== ABOUT ===== -->
+  <section class="about-section" id="about">
+    <div class="container">
+      <div class="about-inner">
+        <div class="about-text fade-up">
+          <span class="section-label">About Us</span>
+          <h2 class="section-title">豊かな自然の中で、<br>ともに育む学びの場</h2>
+          <div class="rule"></div>
+          <p class="about-body">
+            まるごと学校は、山と川に囲まれた自然豊かな地域に根ざした小規模コミュニティスクールです。子どもたちが「なぜ？」と問い続けられる環境をつくり、地域の人々・最先端のテクノロジー・豊かな自然を学びのリソースとして活用しています。
+          </p>
+          <p class="about-body">
+            教室の外に出て、田んぼで算数を学んだり、森で理科の実験をしたり。学校という枠を超えた「まるごとの学び」を大切にしています。教師は知識を「教える人」ではなく、探究を「ともに歩む人」です。
+          </p>
+          <span class="chip">探究学習</span>
+          <span class="chip">自然教育</span>
+          <span class="chip">コミュニティ連携</span>
+          <br>
+          <a href="#features" class="about-link">
+            学校について詳しく見る
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+        <div class="about-img-wrap fade-up">
+          <!-- Decorative doodle -->
+          <svg class="notebook-deco" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="40" cy="40" r="36" stroke="#7a9eb5" stroke-width="1" stroke-dasharray="4 3"/>
+            <circle cx="40" cy="40" r="24" stroke="#7a9eb5" stroke-width="0.7" opacity="0.5"/>
+          </svg>
+          <img
+            src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=800&auto=format&fit=crop&q=80"
+            alt="子どもたちが野外で学んでいる様子"
+            loading="lazy"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FEATURE CARDS ===== -->
+  <section class="features-section" id="features">
+    <div class="container">
+      <div class="features-header fade-up">
+        <span class="section-label">Explore</span>
+        <h2 class="section-title">まるごと学校を知る</h2>
+      </div>
+      <div class="features-grid">
+
+        <article class="feature-card fade-up" id="curriculum">
+          <div class="feature-card-img">
+            <img
+              src="https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=800&auto=format&fit=crop&q=80"
+              alt="学校概要"
+              loading="lazy"
+            />
+          </div>
+          <div class="feature-card-body">
+            <span class="feature-card-tag">Overview</span>
+            <h3 class="feature-card-title">学校概要</h3>
+            <p class="feature-card-desc">
+              設立のあゆみ、教育方針、スタッフ紹介など、まるごと学校の基本情報をご紹介します。小規模ならではの温かな環境が育まれています。
+            </p>
+            <a href="#" class="btn-outline">
+              詳しく見る
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="feature-card fade-up">
+          <div class="feature-card-img">
+            <img
+              src="https://images.unsplash.com/photo-1544717297-fa95b6ee9643?w=800&auto=format&fit=crop&q=80"
+              alt="カリキュラム"
+              loading="lazy"
+            />
+          </div>
+          <div class="feature-card-body">
+            <span class="feature-card-tag">Curriculum</span>
+            <h3 class="feature-card-title">カリキュラム</h3>
+            <p class="feature-card-desc">
+              探究学習・STEAM・地域連携プロジェクトなど、子どもの「好き」を軸にした独自カリキュラムをご紹介します。学びは教室の外にあります。
+            </p>
+            <a href="#" class="btn-outline">
+              詳しく見る
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="feature-card fade-up" id="gallery">
+          <div class="feature-card-img">
+            <img
+              src="https://images.unsplash.com/photo-1596496181848-3091d4878b24?w=800&auto=format&fit=crop&q=80"
+              alt="ギャラリー"
+              loading="lazy"
+            />
+          </div>
+          <div class="feature-card-body">
+            <span class="feature-card-tag">Gallery</span>
+            <h3 class="feature-card-title">ギャラリー</h3>
+            <p class="feature-card-desc">
+              学校生活のいろんな場面を写真でお届けします。授業・行事・自然の中での活動など、まるごと学校の日常をのぞいてみてください。
+            </p>
+            <a href="#" class="btn-outline">
+              詳しく見る
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== NOTE SECTION ===== -->
+  <section class="note-section" id="note">
+    <div class="container">
+      <div class="note-header fade-up">
+        <div class="note-header-left">
+          <span class="section-label">Blog &amp; Stories</span>
+          <h2 class="note-title">まるごとnote</h2>
+          <p class="note-sub">学校の日常・学びのストーリー・地域との交流を綴ります</p>
+        </div>
+        <a href="#" class="note-all-link">すべての記事を見る →</a>
+      </div>
+
+      <div class="note-grid">
+
+        <article class="note-card fade-up">
+          <div class="note-card-img">
+            <img
+              src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&auto=format&fit=crop&q=80"
+              alt="田んぼで算数"
+              loading="lazy"
+            />
+            <span class="note-card-cat">学び</span>
+          </div>
+          <div class="note-card-body">
+            <p class="note-card-date">2025年11月08日</p>
+            <h3 class="note-card-title">田んぼで算数を学ぶ日。収穫量から面積を計算してみた</h3>
+          </div>
+        </article>
+
+        <article class="note-card fade-up">
+          <div class="note-card-img">
+            <img
+              src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&auto=format&fit=crop&q=80"
+              alt="山での理科実験"
+              loading="lazy"
+            />
+            <span class="note-card-cat">自然</span>
+          </div>
+          <div class="note-card-body">
+            <p class="note-card-date">2025年10月22日</p>
+            <h3 class="note-card-title">山の上で気圧を測る。標高と気温の関係を体で感じた探究の一日</h3>
+          </div>
+        </article>
+
+        <article class="note-card fade-up">
+          <div class="note-card-img">
+            <img
+              src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=600&auto=format&fit=crop&q=80"
+              alt="プログラミング授業"
+              loading="lazy"
+            />
+            <span class="note-card-cat">テクノロジー</span>
+          </div>
+          <div class="note-card-body">
+            <p class="note-card-date">2025年10月07日</p>
+            <h3 class="note-card-title">はじめてのプログラミング授業。子どもたちが作ったゲームを発表しました</h3>
+          </div>
+        </article>
+
+        <article class="note-card fade-up">
+          <div class="note-card-img">
+            <img
+              src="https://images.unsplash.com/photo-1543269865-cbf427effbad?w=600&auto=format&fit=crop&q=80"
+              alt="地域の人との交流"
+              loading="lazy"
+            />
+            <span class="note-card-cat">地域</span>
+          </div>
+          <div class="note-card-body">
+            <p class="note-card-date">2025年09月19日</p>
+            <h3 class="note-card-title">地域のおじいちゃんに昔の地図を見せてもらった。歴史が動き出した授業</h3>
+          </div>
+        </article>
+
+        <article class="note-card fade-up">
+          <div class="note-card-img">
+            <img
+              src="https://images.unsplash.com/photo-1472289065668-ce650ac443d2?w=600&auto=format&fit=crop&q=80"
+              alt="秋の運動会"
+              loading="lazy"
+            />
+            <span class="note-card-cat">行事</span>
+          </div>
+          <div class="note-card-body">
+            <p class="note-card-date">2025年09月05日</p>
+            <h3 class="note-card-title">秋晴れの運動会。子どもたちが自分たちで企画・運営した特別な一日</h3>
+          </div>
+        </article>
+
+        <article class="note-card fade-up">
+          <div class="note-card-img">
+            <img
+              src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&auto=format&fit=crop&q=80"
+              alt="陶芸ワークショップ"
+              loading="lazy"
+            />
+            <span class="note-card-cat">アート</span>
+          </div>
+          <div class="note-card-body">
+            <p class="note-card-date">2025年08月28日</p>
+            <h3 class="note-card-title">陶芸家さんと一緒に土をこねた夏。自分だけの器ができあがりました</h3>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== VISUAL BAND ===== -->
+  <section class="band-section" aria-label="メッセージセクション">
+    <div class="band-bg"></div>
+    <div class="band-content fade-up">
+      <div class="band-line" aria-hidden="true"></div>
+      <p class="band-text">
+        ここは、子どもたちが<br>
+        自分の「好き」を見つける場所。<br>
+        答えのない問いを、ともに歩む。
+      </p>
+      <p class="band-sub">— まるごと学校 教育理念より</p>
+      <div class="band-line-bottom" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <!-- ===== INTERVIEW ===== -->
+  <section class="interview-section">
+    <div class="container">
+      <div class="interview-inner">
+        <div class="interview-img-wrap fade-up">
+          <div class="interview-quote-mark" aria-hidden="true">"</div>
+          <img
+            src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?w=800&auto=format&fit=crop&q=80"
+            alt="先生のインタビュー写真"
+            loading="lazy"
+          />
+        </div>
+        <div class="interview-text fade-up">
+          <span class="section-label">Interview</span>
+          <h2 class="interview-title">「正解を教えるより、<br>問いを育てたかった」</h2>
+          <div class="rule"></div>
+          <p class="interview-body">
+            都市部の大手塾で10年間働いた後、まるごと学校に移ってきた田中先生。
+            最初は「教える」という言葉さえ捨てることが怖かったと話してくれました。
+          </p>
+          <p class="interview-body">
+            「でも、子どもたちは放っておいても問い続けるんですよね。私の仕事は、その火を消さないこと。一緒に驚いて、一緒に考えること。それだけでいい、と気づいた頃から授業が変わりました」
+          </p>
+          <p class="interview-body">
+            今では地域の農家さんや大工さんを招いての「職人授業」も担当。子どもたちが地域の大人と本気で向き合う場を毎月つくっています。
+          </p>
+          <div class="interview-name">
+            <div class="interview-avatar">
+              <img
+                src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80"
+                alt="田中先生のプロフィール写真"
+                loading="lazy"
+              />
+            </div>
+            <div class="interview-name-text">
+              <span class="interview-name-main">田中 さくら 先生</span>
+              <span class="interview-name-sub">担任 / 探究コーディネーター</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== ACCESS ===== -->
+  <section class="access-section" id="access">
+    <div class="container">
+      <div class="access-inner">
+        <div class="access-text fade-up">
+          <span class="section-label">Access</span>
+          <h2 class="access-title">アクセス・お問い合わせ</h2>
+          <div class="access-info">
+            <p><strong>学校名</strong>まるごと学校</p>
+            <p><strong>所在地</strong>〒399-0000　長野県大自然市学びの丘1-2-3</p>
+            <p><strong>電話</strong>0263-00-0000（平日 9:00〜17:00）</p>
+            <p><strong>メール</strong>info@marugoto-school.jp</p>
+            <p><strong>交通</strong>JR大自然駅より徒歩12分 / バス停「学びの丘」目の前</p>
+          </div>
+          <div class="sns-row" aria-label="SNSリンク">
+            <!-- Instagram icon -->
+            <a href="#" class="sns-icon" aria-label="Instagram">
+              <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 1.366.062 2.633.334 3.608 1.308.975.975 1.246 2.242 1.308 3.608.058 1.265.069 1.645.069 4.849s-.012 3.584-.07 4.85c-.062 1.366-.334 2.633-1.308 3.608-.975.975-2.242 1.246-3.608 1.308-1.265.058-1.645.069-4.849.069s-3.584-.012-4.85-.07c-1.366-.062-2.633-.334-3.608-1.308-.975-.975-1.246-2.242-1.308-3.608C2.175 15.747 2.163 15.367 2.163 12s.012-3.584.07-4.85c.062-1.366.334-2.633 1.308-3.608.975-.975 2.242-1.246 3.608-1.308C8.416 2.175 8.796 2.163 12 2.163zm0-2.163C8.741 0 8.332.014 7.052.072 5.197.157 3.355.673 1.955 2.073.556 3.473.04 5.315-.045 7.17-.014 8.45 0 8.859 0 12c0 3.141.014 3.55.072 4.83.085 1.855.6 3.697 2 5.097 1.4 1.4 3.242 1.915 5.097 2 1.28.058 1.689.072 4.831.072s3.55-.014 4.831-.072c1.855-.085 3.697-.6 5.097-2 1.4-1.4 1.915-3.242 2-5.097.058-1.28.072-1.689.072-4.831s-.014-3.55-.072-4.831c-.085-1.855-.6-3.697-2-5.097-1.4-1.4-3.242-1.915-5.097-2C15.55.014 15.141 0 12 0z"/><path d="M12 5.838A6.162 6.162 0 1 0 12 18.162 6.162 6.162 0 0 0 12 5.838zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8z"/><circle cx="18.406" cy="5.594" r="1.44"/></svg>
+            </a>
+            <!-- X (Twitter) icon -->
+            <a href="#" class="sns-icon" aria-label="X (旧Twitter)">
+              <svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+            </a>
+            <!-- Facebook icon -->
+            <a href="#" class="sns-icon" aria-label="Facebook">
+              <svg viewBox="0 0 24 24"><path d="M24 12.073C24 5.404 18.627 0 12 0S0 5.404 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.312 0 2.686.235 2.686.235v2.97h-1.513c-1.491 0-1.956.93-1.956 1.886v2.269h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/></svg>
+            </a>
+            <!-- Note icon -->
+            <a href="#" class="sns-icon" aria-label="note">
+              <svg viewBox="0 0 24 24"><path d="M14.35 0H3.38A1.38 1.38 0 0 0 2 1.38v21.24A1.38 1.38 0 0 0 3.38 24h14.88a1.38 1.38 0 0 0 1.38-1.38V5.65zm.7 1.72 3.1 3.24h-3.1zM4.12 21.25V2.75h8.88v4.1a.92.92 0 0 0 .92.92h4.15V21.25zm2.44-4.57h8.88v1.37H6.56zm0-3.44h8.88v1.37H6.56zm0-3.44h5.5v1.37h-5.5z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="access-map fade-up" aria-label="地図（準備中）">
+          <div class="map-placeholder">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+            </svg>
+            <p>地図はこちら<br>（Google Maps 埋め込み予定）</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <nav class="footer-links" aria-label="フッターナビゲーション">
+          <a href="#">学校概要</a>
+          <a href="#">カリキュラム</a>
+          <a href="#">ギャラリー</a>
+          <a href="#">まるごとnote</a>
+          <a href="#">アクセス</a>
+          <a href="#">プライバシーポリシー</a>
+          <a href="#">お問い合わせ</a>
+        </nav>
+        <p class="footer-copy">&copy; 2025 まるごと学校 All rights reserved.</p>
+      </div>
+    </footer>
+  </section>
+
+  </main>
+
+  <script>
+    // ===== Mobile nav toggle =====
+    function toggleMenu() {
+      const nav = document.getElementById('mobileNav');
+      nav.classList.toggle('open');
+    }
+
+    // Close mobile nav on outside click
+    document.addEventListener('click', function(e) {
+      const nav = document.getElementById('mobileNav');
+      const toggle = document.querySelector('.nav-toggle');
+      if (nav.classList.contains('open') && !nav.contains(e.target) && !toggle.contains(e.target)) {
+        nav.classList.remove('open');
+      }
+    });
+
+    // ===== Hero parallax (subtle) =====
+    const heroBg = document.getElementById('heroBg');
+    window.addEventListener('scroll', function() {
+      const scrollY = window.scrollY;
+      if (heroBg && scrollY < window.innerHeight) {
+        heroBg.style.transform = 'scale(1.04) translateY(' + (scrollY * 0.18) + 'px)';
+      }
+    }, { passive: true });
+
+    // ===== Fade-up on scroll =====
+    const fadeElements = document.querySelectorAll('.fade-up');
+
+    const observer = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, {
+      threshold: 0.12,
+      rootMargin: '0px 0px -40px 0px'
+    });
+
+    fadeElements.forEach(function(el) {
+      observer.observe(el);
+    });
+
+    // ===== Stagger card animations =====
+    document.querySelectorAll('.note-grid .note-card, .features-grid .feature-card').forEach(function(card, i) {
+      card.style.transitionDelay = (i % 3) * 0.1 + 's';
+    });
+
+    // ===== Hero bg zoom on load =====
+    window.addEventListener('load', function() {
+      if (heroBg) {
+        heroBg.style.transform = 'scale(1) translateY(0)';
+      }
+    });
+  </script>
+</body>
+</html>
